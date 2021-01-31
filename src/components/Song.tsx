@@ -4,7 +4,7 @@ const Song = ({ currentSong, isPlaying }) => {
       <img
         src={currentSong.cover}
         alt={currentSong.name}
-        className={isPlaying && "rotateSong"}
+        className={isPlaying ? "rotateSong" : ""}
       />
       <h2>{currentSong.name}</h2>
       <h3>{currentSong.artist}</h3>

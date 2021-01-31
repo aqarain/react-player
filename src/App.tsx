@@ -7,7 +7,7 @@ import Nav from "./components/Nav";
 import data from "./data";
 
 function App() {
-  const audioRef = useRef(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
   const [songs, setSongs] = useState(data());
   const [currentSong, setCurrentSong] = useState(songs[0]);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -38,11 +38,11 @@ function App() {
   const songEndHandler = async () => {
     const currentIndex = songs.findIndex(({ id }) => id === currentSong.id);
     await setCurrentSong(songs[(currentIndex + 1) % songs.length]);
-    if (isPlaying) audioRef.current.play();
+    if (isPlaying && audioRef.current) audioRef.current.play();
   };
 
   return (
-    <div className={`App ${libraryStatus && "library-active"}`}>
+    <div className={`App ${libraryStatus ? "library-active" : ""}`}>
       <Nav libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} />
       <Song currentSong={currentSong} isPlaying={isPlaying} />
       <Player
