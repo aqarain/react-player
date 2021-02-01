@@ -16,7 +16,7 @@ interface Props {
   audioRef: React.RefObject<HTMLAudioElement>;
   songInfo: SongInfo;
   setSongInfo(info: SongInfo): void;
-  timeUpdateHandler(e): void;
+  timeUpdateHandler(e: any): void;
 }
 
 export const Player = (props: Props) => {
@@ -46,7 +46,7 @@ export const Player = (props: Props) => {
   const getTime = (time: number) =>
     Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2);
 
-  const dragHandler = e => {
+  const dragHandler = (e: any) => {
     if (audioRef.current) audioRef.current.currentTime = e.target.value;
     setSongInfo({ ...songInfo, currentTime: e.target.value });
   };
@@ -84,6 +84,13 @@ export const Player = (props: Props) => {
 
   const trackAnim = {
     transform: `translate(${songInfo.animationPercentage}%)`
+  };
+
+  const songEndHandler = async () => {
+    const currentIndex = songs.findIndex(({ id }) => id === currentSong.id);
+    await setCurrentSong(songs[(currentIndex + 1) % songs.length]);
+    activeLibraryHandle(songs[(currentIndex + 1) % songs.length]);
+    if (isPlaying && audioRef.current) audioRef.current.play();
   };
 
   return (
@@ -132,6 +139,7 @@ export const Player = (props: Props) => {
         src={currentSong.audio}
         onTimeUpdate={timeUpdateHandler}
         onLoadedMetadata={timeUpdateHandler}
+        onEnded={songEndHandler}
       />
     </div>
   );
