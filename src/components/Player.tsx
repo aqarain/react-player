@@ -6,20 +6,35 @@ import {
   faPause
 } from "@fortawesome/free-solid-svg-icons";
 
-const Player = ({
-  currentSong,
-  isPlaying,
-  setIsPlaying,
-  audioRef,
-  songInfo,
-  setSongInfo,
-  timeUpdateHandler,
-  songs,
-  setSongs,
-  setCurrentSong
-}) => {
-  const activeLibraryHandle = nextPrev => {
-    const updatedSongs = songs.map(song => {
+interface Props {
+  songs: Array<Song>;
+  setSongs(songs: Array<Song>): void;
+  currentSong: Song;
+  setCurrentSong(song: Song): void;
+  isPlaying: boolean;
+  setIsPlaying(isPlaying: boolean): void;
+  audioRef: React.RefObject<HTMLAudioElement>;
+  songInfo: SongInfo;
+  setSongInfo(info: SongInfo): void;
+  timeUpdateHandler(e): void;
+}
+
+export const Player = (props: Props) => {
+  const {
+    currentSong,
+    isPlaying,
+    setIsPlaying,
+    audioRef,
+    songInfo,
+    setSongInfo,
+    timeUpdateHandler,
+    songs,
+    setSongs,
+    setCurrentSong
+  } = props;
+
+  const activeLibraryHandle = (nextPrev: Song) => {
+    const updatedSongs = songs.map((song: Song) => {
       if (song.id === nextPrev.id) {
         return { ...song, active: true };
       }
@@ -28,25 +43,27 @@ const Player = ({
     setSongs(updatedSongs);
   };
 
-  const getTime = time =>
+  const getTime = (time: number) =>
     Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2);
 
   const dragHandler = e => {
-    audioRef.current.currentTime = e.target.value;
+    if (audioRef.current) audioRef.current.currentTime = e.target.value;
     setSongInfo({ ...songInfo, currentTime: e.target.value });
   };
 
   const playSongHandler = () => {
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(!isPlaying);
-    } else {
-      audioRef.current.play();
-      setIsPlaying(!isPlaying);
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(!isPlaying);
+      } else {
+        audioRef.current.play();
+        setIsPlaying(!isPlaying);
+      }
     }
   };
 
-  const skipTrackHandler = async direction => {
+  const skipTrackHandler = async (direction: "skip-forward" | "skip-back") => {
     const currentIndex = songs.findIndex(({ id }) => id === currentSong.id);
     if (direction === "skip-forward") {
       await setCurrentSong(songs[(currentIndex + 1) % songs.length]);
@@ -56,13 +73,13 @@ const Player = ({
       if ((currentIndex - 1) % songs.length === -1) {
         await setCurrentSong(songs[songs.length - 1]);
         activeLibraryHandle(songs[songs.length - 1]);
-        if (isPlaying) audioRef.current.play();
+        if (isPlaying && audioRef.current) audioRef.current.play();
         return;
       }
       await setCurrentSong(songs[(currentIndex - 1) % songs.length]);
       activeLibraryHandle(songs[(currentIndex - 1) % songs.length]);
     }
-    if (isPlaying) audioRef.current.play();
+    if (isPlaying && audioRef.current) audioRef.current.play();
   };
 
   const trackAnim = {
@@ -119,5 +136,3 @@ const Player = ({
     </div>
   );
 };
-
-export default Player;

@@ -1,21 +1,25 @@
-const LibrarySong = ({
-  song,
-  songs,
-  setCurrentSong,
-  audioRef,
-  isPlaying,
-  setSongs
-}) => {
+interface Props {
+  song: Song;
+  songs: Array<Song>;
+  setCurrentSong(song: Song): void;
+  audioRef: React.RefObject<HTMLAudioElement>;
+  isPlaying: boolean;
+  setSongs(songs: Array<Song>): void;
+}
+
+export const LibrarySong = (props: Props) => {
+  const { song, songs, setCurrentSong, audioRef, isPlaying, setSongs } = props;
+
   const songSelectHandler = async () => {
     await setCurrentSong(song);
-    const updatedSongs = songs.map(currentSong => {
+    const updatedSongs = songs.map((currentSong: Song) => {
       if (currentSong.id === song.id) {
         return { ...currentSong, active: true };
       }
       return { ...currentSong, active: false };
     });
     setSongs(updatedSongs);
-    if (isPlaying) audioRef.current.play();
+    if (isPlaying && audioRef.current) audioRef.current.play();
   };
 
   return (
@@ -31,5 +35,3 @@ const LibrarySong = ({
     </div>
   );
 };
-
-export default LibrarySong;

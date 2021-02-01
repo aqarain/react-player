@@ -1,17 +1,17 @@
 import { useRef, useState } from "react";
 import "./styles/app.scss";
-import Song from "./components/Song";
-import Player from "./components/Player";
-import Library from "./components/Library";
-import Nav from "./components/Nav";
-import data from "./data";
+import { Song } from "./components/Song";
+import { Player } from "./components/Player";
+import { Library } from "./components/Library";
+import { Nav } from "./components/Nav";
+import { data } from "./data";
 
 function App() {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [songs, setSongs] = useState(data());
-  const [currentSong, setCurrentSong] = useState(songs[0]);
+  const [songs, setSongs] = useState<Array<Song>>(data());
+  const [currentSong, setCurrentSong] = useState<Song>(songs[0]);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [songInfo, setSongInfo] = useState({
+  const [songInfo, setSongInfo] = useState<SongInfo>({
     currentTime: 0,
     duration: 0,
     animationPercentage: 0

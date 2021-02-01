@@ -1,13 +1,22 @@
-import LibrarySong from "./LibrarySong";
+import { LibrarySong } from "./LibrarySong";
 
-const Library = ({
+interface Props {
+  songs: Array<Song>;
+  setCurrentSong(song: Song): void;
+  audioRef: React.RefObject<HTMLAudioElement>;
+  isPlaying: boolean;
+  setSongs(songs: Array<Song>): void;
+  libraryStatus: boolean;
+}
+
+export const Library = ({
   songs,
   setCurrentSong,
   audioRef,
   isPlaying,
   setSongs,
   libraryStatus
-}) => {
+}: Props) => {
   return (
     <div className={`library ${libraryStatus ? "active-library" : ""}`}>
       <h2>Library</h2>
@@ -27,5 +36,3 @@ const Library = ({
     </div>
   );
 };
-
-export default Library;
