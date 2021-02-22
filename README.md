@@ -13,9 +13,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 The **main libraries** used in this project are:
 
-* SCSS for styling
-* UUID
-* FontAwesome for icons
+* `SCSS` for styling
+* `UUID`
+* `FontAwesome` for icons
 
 ## Run the project
 
