@@ -1,6 +1,6 @@
 # React Music Player
 
-This is a Music Player application built using ReactJS
+This is a **Responsive (Mobile Friendly)** Music Player application built using ReactJS
 
 The project consist of two branches:
 
