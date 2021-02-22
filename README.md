@@ -1,6 +1,8 @@
 # React Music Player
 
-This is a **Responsive (Mobile Friendly)** Music Player application built using ReactJS
+This is a **Responsive (Mobile Friendly)** Music Player application built using ReactJS.
+
+The app is deployed on https://aqarain-react-music-player.herokuapp.com/
 
 The project consist of two branches:
 
