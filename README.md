@@ -9,13 +9,13 @@ The project consist of two branches:
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-The main libraries used in this project are:
+The **main libraries** used in this project are:
 
 * SCSS for styling
 * UUID
 * FontAwesome for icons
 
-## Available Scripts
+## Run the project
 
 In the project directory, you can run:
 
